@@ -29,7 +29,6 @@ public class LoginPage {
         emailBox.sendKeys(username);
         passwordBox.sendKeys(password);
         loginButton.click();
-
     }
 
     public void login(String username, String password) {
