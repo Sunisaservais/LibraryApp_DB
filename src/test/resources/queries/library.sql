@@ -14,3 +14,6 @@ FROM book_categories;
 SELECT name,author,isbn,year,description
 FROM books
 WHERE name = 'Agile Testing';
+
+SELECT full_name FROM users
+WHERE email = 'librarian44@library';
