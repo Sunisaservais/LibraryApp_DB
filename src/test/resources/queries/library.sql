@@ -17,3 +17,5 @@ WHERE name = 'Agile Testing';
 
 SELECT full_name FROM users
 WHERE email = 'librarian44@library';
+
+SELECT * from users where email = 'Jonnie@library'

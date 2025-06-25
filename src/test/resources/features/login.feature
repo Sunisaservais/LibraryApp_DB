@@ -6,7 +6,7 @@ Feature: Login Functionality
     When user gets username  from user fields
     Then the username should be same with database
 
-  @wip @db
+  @db
   Scenario Outline: Login with valid credentials <email>
     Given the user logged in  "<email>" and "<password>"
     When user gets username  from user fields
