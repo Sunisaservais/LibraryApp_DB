@@ -8,6 +8,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,69 @@ public class BooksStepDefinition {
 
     @Then("book information must match the database for {string}")
     public void book_information_must_match_the_database_for(String bookName) {
+        //UI Steps
+        //We need to get information from UI to compare with database
+        BrowserUtil.waitFor(3);
+        String query = ("SELECT name,author,isbn,year,description\n" +
+                "FROM books\n" +
+                "WHERE name = '" + bookName + "'");
+        DB_Util.runQuery(query);
+        /*
+            1.getText() --> it will return text from provided element
+            2.getAttribute("value") --> if there is input box we are going to use getAttribute("value") to get data from it.
+         */
 
+        //create ui variables and save information
+        String actualBookName = bookPage.bookName.getAttribute("value");
+        String actualAuthorName = bookPage.author.getAttribute("value");
+        String actualISBN = bookPage.isbn.getAttribute("value");
+        String actualYear = bookPage.year.getAttribute("value");
+        String actualDesc = bookPage.description.getAttribute("value");
+
+        List<String> actualInformation = new ArrayList<>();
+        actualInformation.add(actualBookName);
+        actualInformation.add(actualAuthorName);
+        actualInformation.add(actualISBN);
+        actualInformation.add(actualYear);
+        actualInformation.add(actualDesc);
+
+        List<String> expectedInformation = DB_Util.getRowDataAsList(1);
+        Assert.assertEquals("Book information is matching", actualInformation, expectedInformation);
+        System.out.println("actualInformation = " + actualInformation);
+        System.out.println("expectedBookName = " + expectedInformation);
+
+        //OPT2
+        /*
+        String actualBookName = bookPage.bookName.getAttribute("value");
+        String actualAuthorName = bookPage.author.getAttribute("value");
+        String actualISBN = bookPage.isbn.getAttribute("value");
+        String actualYear = bookPage.year.getAttribute("value");
+        String actualDesc = bookPage.description.getAttribute("value");
+
+        System.out.println("actualISBN = " + actualISBN);
+
+        //get same information from database
+        String query = "select name,isbn,year,author,description from books\n" +
+                "where name = '"+bookName+"'";
+
+        DB_Util.runQuery(query);
+        Map<String, String> bookInfo = DB_Util.getRowMap(1);
+
+        String expectedBookName = bookInfo.get("name");
+        String expectedAuthorName =bookInfo.get("author");
+        String expectedISBN = bookInfo.get("isbn");
+        String expectedYear = bookInfo.get("year");
+        String expectedDesc = bookInfo.get("description");
+
+        System.out.println("expectedAuthorName = " + expectedAuthorName);
+        System.out.println("expectedISBN = " + expectedISBN);
+
+        //compare them
+        Assert.assertEquals(actualBookName,expectedBookName);
+        Assert.assertEquals(actualAuthorName,expectedAuthorName);
+        Assert.assertEquals(actualISBN,expectedISBN);
+        Assert.assertEquals(actualYear,expectedYear);
+        Assert.assertEquals(bookPage.description.getAttribute("value"),bookInfo.get("description"));
+         */
     }
 }
