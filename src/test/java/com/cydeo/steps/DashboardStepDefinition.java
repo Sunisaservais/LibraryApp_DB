@@ -37,7 +37,7 @@ public class DashboardStepDefinition {
     public void the_information_should_be_same_with_database() {
         //This scenario Database result is expected.
         //Connect the same database (library2)
-        DB_Util.createConnection();
+        //DB_Util.createConnection(); connection will be created by @db hooks
 
         //Run query for each of the result (3 different queries)
         //BOOKS
@@ -61,6 +61,6 @@ public class DashboardStepDefinition {
         System.out.println("expectedBorrowedBookNumbers = " + expectedBorrowedBookNumbers);
 
         //Close connection
-        DB_Util.destroy();
+        //DB_Util.destroy(); Close connection will be closed by @db hooks
     }
 }
