@@ -12,8 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Driver {
 
-
-
     // Creating a private constructor, we are closing access to the
     // object of this class from outside the class
     private Driver() {
@@ -26,7 +24,6 @@ public class Driver {
 
     private static InheritableThreadLocal<WebDriver> driverPool = new InheritableThreadLocal<>();
 
-
     // Create a re-usable utility method which will return same driver instance when we call it
     public static WebDriver getDriver() {
 
@@ -35,14 +32,12 @@ public class Driver {
         if (driverPool.get() == null) {
             String browserName = System.getProperty("browser") != null ? browserName = System.getProperty("browser") : ConfigurationReader.getProperty("browser");
 
-
-
-            switch(browserName){
+            switch (browserName) {
                 case "remote-chrome":
                     try {
                         // assign your grid server address
                         String gridAddress = "52.90.101.17";
-                        URL url = new URL("http://"+ gridAddress + ":4444/wd/hub");
+                        URL url = new URL("http://" + gridAddress + ":4444/wd/hub");
                         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
                         desiredCapabilities.setBrowserName("chrome");
                         driverPool.set(new RemoteWebDriver(url, desiredCapabilities));
@@ -56,7 +51,7 @@ public class Driver {
                     try {
                         // assign your grid server address
                         String gridAddress = "52.90.101.17";
-                        URL url = new URL("http://"+ gridAddress + ":4444/wd/hub");
+                        URL url = new URL("http://" + gridAddress + ":4444/wd/hub");
                         DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
                         desiredCapabilities.setBrowserName("firefox");
                         driverPool.set(new RemoteWebDriver(url, desiredCapabilities));
@@ -79,19 +74,15 @@ public class Driver {
                     driverPool.get().manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                     break;
             }
-
         }
-
         return driverPool.get();
-
     }
 
     // This method will make sure our driver value is always null after using quit() method
-    public static void closeDriver(){
-        if(driverPool.get() != null){
+    public static void closeDriver() {
+        if (driverPool.get() != null) {
             driverPool.get().quit(); // this line will terminate the existing driver session. with using this driver will not be even null
             driverPool.remove();  //driver = null
         }
-
     }
 }

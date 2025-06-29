@@ -1,6 +1,7 @@
 @smoke
 Feature: Book Category
 
+  @db
   Scenario: verify book categories with UI
     Given the user logged in as "librarian"
     When the user navigates to "Books" page
