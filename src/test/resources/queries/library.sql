@@ -29,10 +29,10 @@ from users;
 SELECT COUNT(*)
 FROM users
 WHERE status = 'ACTIVE'
-  AND user_group_id != '1';
+  AND user_group_id <> '1';
 
 SELECT COUNT(*)
 FROM users
 WHERE status = 'INACTIVE'
-  AND user_group_id != '1';
+  AND user_group_id = '1';
 
