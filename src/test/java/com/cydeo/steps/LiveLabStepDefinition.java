@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.support.ui.Select;
 
 public class LiveLabStepDefinition {
 
@@ -52,12 +53,14 @@ public class LiveLabStepDefinition {
 
     @When("the user gets {string} book count")
     public void the_user_gets_book_count(String category) {
-//        Select select = new Select(bookPage.mainCategoryElement);
-//        select.selectByVisibleText(category);
-//        BrowserUtil.waitFor(2);
-//        actualCount = bookPage.bookCount.getText();
-//        System.out.println(actualCount);
+        //OPT1
+        //Select select = new Select(bookPage.mainCategoryElement);
+        //select.selectByVisibleText(category);
+        //BrowserUtil.waitFor(2);
+        //actualCount = bookPage.bookCount.getText();
+        //System.out.println(actualCount);
 
+        //OPT2
         BrowserUtil.selectByVisibleText(bookPage.mainCategoryElement, category);
         BrowserUtil.waitFor(2);
         actualBookCount = bookPage.getCount(bookPage.bookCount.getText());
@@ -69,7 +72,7 @@ public class LiveLabStepDefinition {
                 "FROM books\n" +
                 "         JOIN library2.book_categories bc ON bc.id = books.book_category_id\n" +
                 "where bc.name = '" + category + "'");
-        BrowserUtil.waitFor(2);
+
         expectedBookCount = DB_Util.getFirstRowFirstColumn();
         System.out.println("actualCount = " + actualBookCount);
         System.out.println("expectedCount = " + expectedBookCount);
