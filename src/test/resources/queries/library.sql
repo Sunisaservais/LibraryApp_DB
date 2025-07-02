@@ -37,9 +37,16 @@ WHERE status = 'INACTIVE'
   AND user_group_id = '1';
 
 SELECT COUNT(*) AS total_books
-FROM books
-         JOIN library2.book_categories bc ON bc.id = books.book_category_id
+FROM books b
+         JOIN book_categories bc ON bc.id = b.book_category_id
 where bc.name = 'Action and Adventure';
+
+SELECT COUNT(*)
+FROM books
+WHERE book_category_id = (SELECT id
+                          FROM book_categories
+                          WHERE name = 'Action and Adventure');
+
 
 SELECT COUNT(*) AS borrow_count
 FROM book_borrow bb2
