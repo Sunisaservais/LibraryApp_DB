@@ -7,6 +7,7 @@ import com.cydeo.utility.DB_Util;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.Map;
 public class BooksStepDefinition {
     BookPage bookPage = new BookPage();
     List<String> actualCategoryList;
+    String actualCount;
+    String expectedCount;
 
     @When("the user navigates to {string} page")
     public void the_user_navigates_to_page(String moduleName) {
@@ -115,5 +118,29 @@ public class BooksStepDefinition {
         Assert.assertEquals(actualYear,expectedYear);
         Assert.assertEquals(bookPage.description.getAttribute("value"),bookInfo.get("description"));
          */
+    }
+
+    @When("the user gets {string} book count")
+    public void the_user_gets_book_count(String category) {
+        BrowserUtil.waitFor(2);
+        bookPage.mainCategoryElement.click();
+        Select select = new Select(bookPage.mainCategoryElement);
+        select.selectByVisibleText(category);
+        actualCount = bookPage.bookCount.getText();
+        System.out.println(actualCount);
+    }
+
+    @Then("the {string} book count should be equal with database")
+    public void the_book_count_should_be_equal_with_database(String category) {
+        DB_Util.runQuery("SELECT COUNT(*) AS total_books\n" +
+                "FROM books\n" +
+                "         JOIN library2.book_categories bc ON bc.id = books.book_category_id\n" +
+                "where bc.name = '" + category + "'");
+
+        expectedCount = DB_Util.getFirstRowFirstColumn();
+        System.out.println(expectedCount);
+        System.out.println("actualCount = " + actualCount);
+        System.out.println("expectedCount = " + expectedCount);
+        Assert.assertTrue(actualCount.contains(expectedCount));
     }
 }

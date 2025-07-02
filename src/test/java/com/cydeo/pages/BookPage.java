@@ -53,4 +53,6 @@ public class BookPage extends BasePage {
 
     @FindBy(id = "book_group_id")
     public WebElement categoryDropdown;
+
+
 }
