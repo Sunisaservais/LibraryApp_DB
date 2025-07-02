@@ -1,6 +1,6 @@
 Feature: Books module: As a librarian, I should be able to get the book count of each category to manage library
 
-  @db
+  @wip @db
   Scenario Outline: Librarian should able to get book count based on category
     Given the user logged in as "librarian"
     And the user navigates to "Books" page

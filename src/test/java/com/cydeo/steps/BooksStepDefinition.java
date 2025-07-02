@@ -126,6 +126,7 @@ public class BooksStepDefinition {
         bookPage.mainCategoryElement.click();
         Select select = new Select(bookPage.mainCategoryElement);
         select.selectByVisibleText(category);
+        BrowserUtil.waitFor(2);
         actualCount = bookPage.bookCount.getText();
         System.out.println(actualCount);
     }
@@ -136,7 +137,7 @@ public class BooksStepDefinition {
                 "FROM books\n" +
                 "         JOIN library2.book_categories bc ON bc.id = books.book_category_id\n" +
                 "where bc.name = '" + category + "'");
-
+        BrowserUtil.waitFor(2);
         expectedCount = DB_Util.getFirstRowFirstColumn();
         System.out.println(expectedCount);
         System.out.println("actualCount = " + actualCount);
