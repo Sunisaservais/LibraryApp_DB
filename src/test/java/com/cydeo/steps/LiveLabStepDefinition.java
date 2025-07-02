@@ -12,8 +12,8 @@ public class LiveLabStepDefinition {
 
     BookPage bookPage = new BookPage();
     String actualPopular;
-    String actualCategory;
-    String expectedCategory;
+    String actualBookCount;
+    String expectedBookCount;
 
     //Live Lab Feature 01:
 
@@ -60,7 +60,7 @@ public class LiveLabStepDefinition {
 
         BrowserUtil.selectByVisibleText(bookPage.mainCategoryElement, category);
         BrowserUtil.waitFor(2);
-        actualCategory = bookPage.getCount(bookPage.bookCount.getText());
+        actualBookCount = bookPage.getCount(bookPage.bookCount.getText());
     }
 
     @Then("the {string} book count should be equal with database")
@@ -70,9 +70,9 @@ public class LiveLabStepDefinition {
                 "         JOIN library2.book_categories bc ON bc.id = books.book_category_id\n" +
                 "where bc.name = '" + category + "'");
         BrowserUtil.waitFor(2);
-        expectedCategory = DB_Util.getFirstRowFirstColumn();
-        System.out.println("actualCount = " + actualCategory);
-        System.out.println("expectedCount = " + expectedCategory);
-        Assert.assertEquals(expectedCategory, actualCategory);
+        expectedBookCount = DB_Util.getFirstRowFirstColumn();
+        System.out.println("actualCount = " + actualBookCount);
+        System.out.println("expectedCount = " + expectedBookCount);
+        Assert.assertEquals(expectedBookCount, actualBookCount);
     }
 }
